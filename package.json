@@ -7,14 +7,19 @@
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
+    "serve": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": [
+    "last 2 versions",
+    "> 0.2%",
+    "not dead"
+  ],
   "keywords": [
-    "js",
-    "javascript",
-    "webpack"
+    "webpack",
+    "boilerplate",
+    "template",
+    "blank project"
   ],
   "author": "rocket27",
   "license": "ISC",
