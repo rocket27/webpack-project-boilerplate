@@ -1,7 +1,7 @@
 const path = require('path');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const DeclarationBundlerPlugin = require('declaration-bundler-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
@@ -25,10 +25,6 @@ const optimization = () => {
 
     return config;
 };
-
-const fileName = extension => isDev
-    ? `[name].${extension}`
-    : `[name].[hash].${extension}`;
 
 const styleLoaders = additionalLoader => {
     const loaders = [
@@ -85,27 +81,25 @@ const jsLoaders = () => {
 
 const plugins = () => {
     const base = [
-        new HTMLWebpackPlugin({
-            template: './index.html',
-            minify: {
-                collapseWhitespace: !isDev,
-            },
-        }),
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
+        /*new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, 'src/favicon.ico'),
-                to: path.resolve(__dirname, 'dist'),
+                from: path.resolve(__dirname, 'src/index.d.ts'),
+                to: path.resolve(__dirname, 'lib'),
             },
-        ]),
+        ]),*/
         new MiniCssExtractPlugin({
-            filename: fileName('css'),
+            filename: 'index.css',
+        }),
+        new DeclarationBundlerPlugin({
+            moduleName:'Component',
+            out:'index.d.ts',
         }),
     ];
 
-    if (!isDev) {
+    /*if (!isDev) {
         base.push(new BundleAnalyzerPlugin());
-    }
+    }*/
 
     return base;
 };
@@ -114,17 +108,15 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', './index.jsx'],
-        analytics: './analytics.ts',
+        main: ['@babel/polyfill', './index.js'],
     },
     output: {
-        filename: fileName('js'),
-        path: path.resolve(__dirname, 'dist'),
+        filename: 'index.js',
+        path: path.resolve(__dirname, 'lib'),
     },
     resolve: {
-        extensions: ['.js', '.json', '.png'],
+        extensions: ['.ts', 'tsx', '.js', '.jsx', '.json', '.png'],
         alias: {
-            '@models': path.resolve(__dirname, 'src/models'),
             '@': path.resolve(__dirname, 'src'),
         },
     },
@@ -140,10 +132,6 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: styleLoaders(),
-            },
-            {
-                test: /\.less$/,
-                use: styleLoaders('less-loader'),
             },
             {
                 test: /\.s[ac]ss$/,
@@ -171,11 +159,13 @@ module.exports = {
                 use: jsLoaders(),
             },
             {
-                test: /\.ts$/,
+                test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 loader: {
-                    loader: 'babel-loader',
-                    options: babelOptions('@babel/preset-typescript'),
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true,
+                    },
                 },
             },
             {
