@@ -1,3 +1,5 @@
-import Component from '@/component.tsx';
+/*
+import WsVoiceButton from './component.tsx';
 
-export { Component };
+export { WsVoiceButton };
+*/

@@ -2,16 +2,27 @@ import classnames from 'classnames';
 import * as React from 'react';
 import './styles/index.scss';
 
-export default class Component extends React.Component {
+interface IWsVoiceButtonProps {
+    buttonLabel?: string;
+    stretch?: boolean;
+}
+
+interface IWsVoiceButton {
+    props: IWsVoiceButtonProps;
+}
+
+export class WsVoiceButton extends React.Component<IWsVoiceButtonProps, any> implements IWsVoiceButton {
     render(): JSX.Element | false {
         return (
-            <div
+            <button
                 className={classnames(
-                    'component-class',
+                    'ws-voice-button',
                 )}
             >
-                Component
-            </div>
+                {this.props.buttonLabel ?? 'Push me'}
+            </button>
         );
     }
 }
+
+export default WsVoiceButton;

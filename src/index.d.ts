@@ -1,7 +1,12 @@
 import * as React from 'react';
 
-export interface IComponentProps {
-    propName: any;
+export interface IWsVoiceButtonProps {
+    buttonLabel?: string;
+    stretch?: boolean;
 }
 
-export class Component extends React.Component<IComponentProps, any> {}
+export interface IWsVoiceButton {
+    props: IWsVoiceButtonProps;
+}
+
+export class WsVoiceButton extends React.Component<IWsVoiceButtonProps, any> implements IWsVoiceButton {}

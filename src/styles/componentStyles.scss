@@ -1,3 +1,18 @@
-.component-class {
-  padding: 20px;
+.ws-voice-button {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  min-height: 54px;
+  padding: 6px 24px;
+  border-radius: 27px;
+  overflow: hidden;
+  color: white;
+  background-color: navy;
+
+  &__icon {
+    display: block;
+  }
 }

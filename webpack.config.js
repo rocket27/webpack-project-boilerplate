@@ -1,7 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
-const DeclarationBundlerPlugin = require('declaration-bundler-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const DeclarationBundlerPlugin = require('declaration-bundler-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
@@ -11,9 +11,9 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const optimization = () => {
     const config = {
-        splitChunks: {
+        /*splitChunks: {
             chunks: 'all',
-        },
+        },*/
     };
 
     if (!isDev) {
@@ -82,19 +82,19 @@ const jsLoaders = () => {
 const plugins = () => {
     const base = [
         new CleanWebpackPlugin(),
-        /*new CopyWebpackPlugin([
+        new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, 'src/index.d.ts'),
                 to: path.resolve(__dirname, 'lib'),
             },
-        ]),*/
+        ]),
         new MiniCssExtractPlugin({
             filename: 'index.css',
         }),
-        new DeclarationBundlerPlugin({
-            moduleName:'Component',
+        /*new DeclarationBundlerPlugin({
+            moduleName:'index.d.ts',
             out:'index.d.ts',
-        }),
+        }),*/
     ];
 
     /*if (!isDev) {
@@ -107,9 +107,10 @@ const plugins = () => {
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: {
+    /*entry: {
         main: ['@babel/polyfill', './index.js'],
-    },
+    },*/
+    entry: ['@babel/polyfill', './component.tsx'],
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'lib'),
@@ -154,12 +155,7 @@ module.exports = {
                 use: ['csv-loader'],
             },
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: jsLoaders(),
-            },
-            {
-                test: /\.(ts|tsx)$/,
+                test: /\.ts(x?)$/,
                 exclude: /node_modules/,
                 loader: {
                     loader: 'ts-loader',
@@ -167,6 +163,11 @@ module.exports = {
                         transpileOnly: true,
                     },
                 },
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: jsLoaders(),
             },
             {
                 test: /\.jsx$/,

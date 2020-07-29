@@ -1,13 +1,11 @@
 {
-  "name": "webpack-project-boilerplate",
+  "name": "ws-voice-button",
   "version": "1.0.0",
-  "description": "Webpack project boilerplate",
-  "private": true,
+  "description": "Button component for White Soft voice informational system",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack --mode development",
-    "build": "cross-env NODE_ENV=production webpack --mode production",
-    "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "serve": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
+    "clean": "rm -rf lib",
+    "serve": "npm run clean && cross-env NODE_ENV=development webpack-dev-server --mode development --open",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --mode production",
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "browserslist": [
