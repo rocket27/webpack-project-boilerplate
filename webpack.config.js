@@ -82,12 +82,12 @@ const jsLoaders = () => {
 const plugins = () => {
     const base = [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
+        /*new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, 'src/index.d.ts'),
                 to: path.resolve(__dirname, 'lib'),
             },
-        ]),
+        ]),*/
         new MiniCssExtractPlugin({
             filename: 'index.css',
         }),
@@ -108,9 +108,9 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     /*entry: {
-        main: ['@babel/polyfill', './index.js'],
+        main: ['@babel/polyfill', './index.ts'],
     },*/
-    entry: ['@babel/polyfill', './component.tsx'],
+    entry: ['@babel/polyfill', './index.ts'],
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'lib'),
